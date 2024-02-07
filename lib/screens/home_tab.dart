@@ -26,7 +26,6 @@ class _HomeTabState extends State<HomeTab> {
       leading: IconButton(
         icon: Icon(Icons.menu),
         onPressed: () {
-          // Xử lý sự kiện mở left menu
         },
       ),
       title: Text(
@@ -40,7 +39,6 @@ class _HomeTabState extends State<HomeTab> {
         IconButton(
           icon: Icon(Icons.notifications),
           onPressed: () {
-            // Xử lý sự kiện mở thông báo
           },
         ),
       ],
@@ -105,6 +103,7 @@ class _HomeTabState extends State<HomeTab> {
         right: 16,
       ),
       child: Container(
+        height: 30,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
           color: Colors.white,
