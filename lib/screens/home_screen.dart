@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:DPTamDan/screens/user_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   // Future<void> _fetchDataAndCallAPI(BuildContext context) async {
   //   SharedPreferences prefs = await SharedPreferences.getInstance();
   //   String? token = prefs.getString('token');
@@ -195,9 +195,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Text("Giỏ hàng"),
         );
       case 3:
-        return Center(
-          child: Text("Cài đặt"),
-        );
+        return UserTab();
       default:
         return HomeTab();
     }
