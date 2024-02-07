@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../blocs/home_bloc.dart';
+import '../events/home_event.dart';
+import '../models/gallery.dart';
+import '../states/home_state.dart';
 
 class HomeTab extends StatefulWidget {
   @override
@@ -11,10 +17,28 @@ class _HomeTabState extends State<HomeTab> {
   String name = "lan";
 
   @override
+  void initState() {
+    super.initState();
+    context.read<HomeScreenBloc>().add(FetchDataEvent());
+  }
+
+  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      // appBar: _buildAppBar(),
-      body: _buildBody(context),
+    return BlocBuilder<HomeScreenBloc, HomeScreenState>(
+      builder: (context, state) {
+        if (state is DataLoadedState) {
+          final List<Gallery> galleries = state.galleries;
+          print(galleries.toString());
+        }
+        if (state is ErrorState) {
+          final String e = state.errorMessage;
+          print(e);
+        }
+        return Scaffold(
+          // appBar: _buildAppBar(),
+          body: _buildBody(context),
+        );
+      },
     );
   }
 
@@ -25,9 +49,7 @@ class _HomeTabState extends State<HomeTab> {
       elevation: 0,
       leading: IconButton(
         icon: Icon(Icons.menu),
-        onPressed: () {
-          // Xử lý sự kiện mở left menu
-        },
+        onPressed: () {},
       ),
       title: Text(
         'DPTamDan',
@@ -39,9 +61,7 @@ class _HomeTabState extends State<HomeTab> {
       actions: [
         IconButton(
           icon: Icon(Icons.notifications),
-          onPressed: () {
-            // Xử lý sự kiện mở thông báo
-          },
+          onPressed: () {},
         ),
       ],
     );
@@ -105,6 +125,7 @@ class _HomeTabState extends State<HomeTab> {
         right: 16,
       ),
       child: Container(
+        height: 30,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(30.0),
           color: Colors.white,

@@ -1,12 +1,51 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 import '../blocs/navigation_bloc.dart';
+import '../states/home_state.dart';
 import '../states/navigation_state.dart';
 import '../events/navigation_event.dart';
 import './home_tab.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+
+  // Future<void> _fetchDataAndCallAPI(BuildContext context) async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   String? token = prefs.getString('token');
+  //   try {
+  //     final response = await http.post(
+  //       Uri.parse('https://tamdan.devone.vn/api/client/home'),
+  //       headers: {
+  //         'Content-Type': 'application/json',
+  //         'Authorization': 'Bearer $token',
+  //       },
+  //     );
+
+  //     if (response.statusCode == 200) {
+  //       final responseData = json.decode(response.body);
+  //       print(responseData);
+  //       // final gallery = Gallery.fromJson(responseData['result'][0]);
+  //       // final categories = Category.fromJson(responseData['result'][1]);
+  //       // final products = (responseData['result'][2] as List)
+  //       //     .map((item) => Product.fromJson(item))
+  //       //     .toList();
+  //     } else {
+  //       throw Exception('Failed to load home data');
+  //     }
+  //   } catch (error) {
+  //     print('Error fetching home data: $error');
+  //   }
+  // }
+
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NavigationBloc, NavigationState>(
@@ -17,7 +56,16 @@ class HomeScreen extends StatelessWidget {
         }
         return Scaffold(
           backgroundColor: Colors.white,
-          body: _buildBody(tabIndex),
+          // body: _buildBody(tabIndex),
+          body: Stack(
+            children: [
+              _buildBody(tabIndex),
+              if (state is LoadingState)
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+            ],
+          ),
           bottomNavigationBar: _buildCustomBottomNavBar(context),
         );
       },
@@ -71,7 +119,7 @@ class HomeScreen extends StatelessWidget {
             ),
             _buildNavItem(
               context,
-              "images/icons/giohang-menu.svg",
+              "images/icons/taikhoan.svg",
               'Tài khoản',
               3,
               state,
@@ -138,9 +186,6 @@ class HomeScreen extends StatelessWidget {
     switch (tabIndex) {
       case 0:
         return HomeTab();
-        return Center(
-          child: Text("ho"),
-        );
       case 1:
         return Center(
           child: Text("Sản phẩm"),
