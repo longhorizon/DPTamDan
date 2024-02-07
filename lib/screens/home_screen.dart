@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
 import '../blocs/navigation_bloc.dart';
+import '../states/home_state.dart';
 import '../states/navigation_state.dart';
 import '../events/navigation_event.dart';
 import './home_tab.dart';
@@ -55,7 +56,16 @@ class _HomeScreenState extends State<HomeScreen> {
         }
         return Scaffold(
           backgroundColor: Colors.white,
-          body: _buildBody(tabIndex),
+          // body: _buildBody(tabIndex),
+          body: Stack(
+            children: [
+              _buildBody(tabIndex),
+              if (state is LoadingState)
+                Center(
+                  child: CircularProgressIndicator(),
+                ),
+            ],
+          ),
           bottomNavigationBar: _buildCustomBottomNavBar(context),
         );
       },
@@ -109,7 +119,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             _buildNavItem(
               context,
-              "images/icons/giohang-menu.svg",
+              "images/icons/taikhoan.svg",
               'Tài khoản',
               3,
               state,
