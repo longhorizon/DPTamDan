@@ -24,9 +24,10 @@ class AuthenticationBloc
         final response = await http.post(
           uri,
           headers: {
-            "Access-Control-Allow-Origin": "*",
-            'Content-Type': 'application/json',
-            'Accept': '*/*'
+            "Content-Type": "application/json",
+            "access-control-allow-headers":
+                "access-control-allow-origin, accept",
+            "access-control-allow-origin": "*",
           },
           body: json.encode({
             'username': event.username,
@@ -46,7 +47,8 @@ class AuthenticationBloc
         //   yield AuthenticationFailure(error: message);
         // }
       } catch (error) {
-        yield AuthenticationFailure(
+        print(error.toString());
+        yield const AuthenticationFailure(
             error: "Tài khoản không tồn tại hoặc mật khẩu không chính xác.");
       }
     }

@@ -1,11 +1,8 @@
-import 'dart:convert';
 
 import 'package:DPTamDan/screens/user_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:http/http.dart' as http;
 import '../blocs/navigation_bloc.dart';
 import '../states/home_state.dart';
 import '../states/navigation_state.dart';
@@ -13,6 +10,8 @@ import '../events/navigation_event.dart';
 import './home_tab.dart';
 
 class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
+
   @override
   State<HomeScreen> createState() => _HomeScreenState();
 }
@@ -61,7 +60,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               _buildBody(tabIndex),
               if (state is LoadingState)
-                Center(
+                const Center(
                   child: CircularProgressIndicator(),
                 ),
             ],
@@ -76,7 +75,7 @@ class _HomeScreenState extends State<HomeScreen> {
     final state = context.watch<NavigationBloc>().state;
 
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
@@ -144,7 +143,7 @@ class _HomeScreenState extends State<HomeScreen> {
         context.read<NavigationBloc>().add(ChangeTabEvent(index));
       },
       child: Container(
-        padding: EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(8.0),
         // decoration: isSelected
         //     ? BoxDecoration(
         //         border: Border(
@@ -160,7 +159,7 @@ class _HomeScreenState extends State<HomeScreen> {
             //   icon,
             //   color: isSelected ? Colors.white : Colors.grey,
             // ),
-            Container(
+            SizedBox(
               width: 30,
               height: 30,
               child: SvgPicture.asset(
@@ -169,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 width: 30,
               ),
             ),
-            SizedBox(height: 4.0),
+            const SizedBox(height: 4.0),
             Text(
               label,
               style: TextStyle(
@@ -185,19 +184,19 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget _buildBody(int tabIndex) {
     switch (tabIndex) {
       case 0:
-        return HomeTab();
+        return const HomeTab();
       case 1:
-        return Center(
+        return const Center(
           child: Text("Sản phẩm"),
         );
       case 2:
-        return Center(
+        return const Center(
           child: Text("Giỏ hàng"),
         );
       case 3:
-        return UserTab();
+        return const UserTab();
       default:
-        return HomeTab();
+        return const HomeTab();
     }
   }
 }

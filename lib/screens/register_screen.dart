@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:fluttertoast/fluttertoast.dart';
+// import 'package:fluttertoast/fluttertoast.dart';
 
 import '../blocs/register_bloc.dart';
 import '../events/register_event.dart';
 import '../states/register_state.dart';
 
 class RegisterScreen extends StatefulWidget {
+  const RegisterScreen({super.key});
+
   @override
   _RegisterScreenState createState() => _RegisterScreenState();
 }
@@ -28,27 +30,31 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state is RegisterSuccess) {
-            Fluttertoast.showToast(
-              msg: "Tạo tài khoản thành công",
-              toastLength: Toast.LENGTH_SHORT,
-              gravity: ToastGravity.TOP_RIGHT,
-              timeInSecForIosWeb: 1,
-              backgroundColor: Colors.blue,
-              textColor: Colors.white,
-              fontSize: 16.0
-            );
+            // Fluttertoast.showToast(
+            //   msg: "Tạo tài khoản thành công",
+            //   toastLength: Toast.LENGTH_SHORT,
+            //   gravity: ToastGravity.TOP_RIGHT,
+            //   timeInSecForIosWeb: 1,
+            //   backgroundColor: Colors.blue,
+            //   textColor: Colors.white,
+            //   fontSize: 16.0
+            // );
             Navigator.pushReplacementNamed(context, '/login');
-          } 
-          else if (state is RegisterFailure) {
+          } else if (state is RegisterFailure) {
             setState(() {
-              fullNameError = state.nameError.toString();
-              phoneNumberError = state.usernameError.toString();
-              passwordError = state.passwordError.toString();
+              fullNameError =
+                  state.nameError != null ? state.nameError.toString() : "";
+              phoneNumberError = state.usernameError != null
+                  ? state.usernameError.toString()
+                  : "";
+              passwordError = state.passwordError != null
+                  ? state.passwordError.toString()
+                  : "";
             });
           }
         },
         child: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('images/bg_register.png'),
               fit: BoxFit.cover,
@@ -61,19 +67,24 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.6,
                       height: MediaQuery.of(context).size.height * 0.2,
                       child: Image.asset('images/register-logo.png'),
                     ),
-                    SizedBox(height: 30.0),
-                    _buildTextField("SỐ ĐIỆN THOẠI", "Nhập số điện thoại", _phoneNumberController, phoneNumberError),
-                    _buildTextField("HỌ VÀ TÊN", "Nhập họ và tên bạn", _fullNameController, fullNameError),
+                    const SizedBox(height: 30.0),
+                    _buildTextField("SỐ ĐIỆN THOẠI", "Nhập số điện thoại",
+                        _phoneNumberController, phoneNumberError),
+                    _buildTextField("HỌ VÀ TÊN", "Nhập họ và tên bạn",
+                        _fullNameController, fullNameError),
                     _buildPasswordTextField(
-                        "MẬT KHẨU TRUY CẬP", "Nhập mật khẩu của bạn", _passwordController, passwordError),
-                    _buildPasswordTextField(
-                        "NHẬP LẠI MẬT KHẨU", "Nhập mật khẩu truy cập", _passwordCFController, ""),
-                    SizedBox(height: 16.0),
+                        "MẬT KHẨU TRUY CẬP",
+                        "Nhập mật khẩu của bạn",
+                        _passwordController,
+                        passwordError),
+                    _buildPasswordTextField("NHẬP LẠI MẬT KHẨU",
+                        "Nhập mật khẩu truy cập", _passwordCFController, ""),
+                    const SizedBox(height: 16.0),
                     _buildRegisterButton(context),
                   ],
                 ),
@@ -85,26 +96,27 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildTextField(String label, String hint, TextEditingController controller, String errorText) {
+  Widget _buildTextField(String label, String hint,
+      TextEditingController controller, String errorText) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: TextStyle(color: Color(0xFF073f84)),
+            style: const TextStyle(color: Color(0xFF073f84)),
           ),
           TextField(
             controller: controller,
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: TextStyle(color: Colors.grey),
+              hintStyle: const TextStyle(color: Colors.grey),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide(color: Colors.white),
+                borderSide: const BorderSide(color: Colors.white),
               ),
               filled: true,
               fillColor: Colors.white.withOpacity(0.5),
@@ -116,27 +128,28 @@ class _RegisterScreenState extends State<RegisterScreen> {
     );
   }
 
-  Widget _buildPasswordTextField(String label, String hint, TextEditingController controller, String errorText) {
+  Widget _buildPasswordTextField(String label, String hint,
+      TextEditingController controller, String errorText) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: TextStyle(color: Color(0xFF073f84)),
+            style: const TextStyle(color: Color(0xFF073f84)),
           ),
           TextField(
             controller: controller,
             obscureText: _isPasswordObscured,
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: TextStyle(color: Colors.grey),
+              hintStyle: const TextStyle(color: Colors.grey),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide(color: Colors.grey),
+                borderSide: const BorderSide(color: Colors.grey),
               ),
               filled: true,
               fillColor: Colors.white.withOpacity(0.5),
@@ -160,7 +173,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
   }
 
   Widget _buildRegisterButton(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: MediaQuery.of(context).size.width * 0.5,
       child: ElevatedButton(
         onPressed: () {
@@ -174,13 +187,13 @@ class _RegisterScreenState extends State<RegisterScreen> {
           );
         },
         style: ElevatedButton.styleFrom(
-          padding: EdgeInsets.all(20),
+          padding: const EdgeInsets.all(20),
           backgroundColor: Colors.blue[900],
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),
         ),
-        child: Text("ĐĂNG KÝ",
+        child: const Text("ĐĂNG KÝ",
             style: TextStyle(
               fontSize: 20,
               color: Colors.white,

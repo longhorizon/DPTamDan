@@ -11,7 +11,7 @@ class Product {
   final int priceSaleOff;
   final String image;
   final String updatedAt;
-  final Category category;
+  // final Category category;
 
   Product({
     required this.id,
@@ -24,22 +24,22 @@ class Product {
     required this.priceSaleOff,
     required this.image,
     required this.updatedAt,
-    required this.category,
+    // required this.category,
   });
 
   factory Product.fromJson(Map<String, dynamic> json) {
     return Product(
-      id: json['id'],
-      name: json['name'],
-      slug: json['slug'],
-      link: json['link'],
-      intro: json['intro'],
-      des: json['des'],
-      price: json['price'],
-      priceSaleOff: json['price_sale_off'],
-      image: json['image'],
-      updatedAt: json['updated_at'],
-      category: Category.fromJson(json['category']),
+      id: json['id'] ?? "",
+      name: json['name'] ?? "",
+      slug: json['slug'] ?? "",
+      link: json['link'] ?? "",
+      intro: json['intro'] ?? "",
+      des: json['des'] ?? "",
+      price: json['price'] ?? 0,
+      priceSaleOff: json['price_sale_off'] ?? 0,
+      image: json['image'] ?? "",
+      updatedAt: json['updated_at'] ?? "",
+      // category: Category.fromJson(json['category']),
     );
   }
 }

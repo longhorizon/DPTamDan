@@ -1,14 +1,17 @@
+import 'package:DPTamDan/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 import '../blocs/home_bloc.dart';
 import '../events/home_event.dart';
 import '../models/gallery.dart';
+import '../models/product.dart';
 import '../states/home_state.dart';
 
 class HomeTab extends StatefulWidget {
+  const HomeTab({super.key});
+
   @override
   State<HomeTab> createState() => _HomeTabState();
 }
@@ -27,17 +30,19 @@ class _HomeTabState extends State<HomeTab> {
     return BlocBuilder<HomeScreenBloc, HomeScreenState>(
       builder: (context, state) {
         if (state is DataLoadedState) {
-          final List<Gallery> galleries = state.galleries;
-          print(galleries.toString());
+          final Gallery galleries = state.galleries;
+          final Category categories = state.categories;
+          final List<Product> products = state.products;
+          return Scaffold(
+            // appBar: _buildAppBar(),
+            body: _buildBody(context, galleries, categories, products),
+          );
         }
         if (state is ErrorState) {
           final String e = state.errorMessage;
-          print(e);
+          print("lỗi: $e");
         }
-        return Scaffold(
-          // appBar: _buildAppBar(),
-          body: _buildBody(context),
-        );
+        return Scaffold();
       },
     );
   }
@@ -48,10 +53,10 @@ class _HomeTabState extends State<HomeTab> {
       backgroundColor: Colors.transparent,
       elevation: 0,
       leading: IconButton(
-        icon: Icon(Icons.menu),
+        icon: const Icon(Icons.menu),
         onPressed: () {},
       ),
-      title: Text(
+      title: const Text(
         'DPTamDan',
         style: TextStyle(
           fontWeight: FontWeight.bold,
@@ -60,16 +65,17 @@ class _HomeTabState extends State<HomeTab> {
       ),
       actions: [
         IconButton(
-          icon: Icon(Icons.notifications),
+          icon: const Icon(Icons.notifications),
           onPressed: () {},
         ),
       ],
     );
   }
 
-  Widget _buildBody(BuildContext context) {
+  Widget _buildBody(BuildContext context, Gallery galleries,
+      Category categories, List<Product> products) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('images/home-bg.png'),
           fit: BoxFit.fill,
@@ -79,43 +85,54 @@ class _HomeTabState extends State<HomeTab> {
         padding: const EdgeInsets.only(top: 16, bottom: 16),
         child: Column(
           children: [
-            SizedBox(height: 16.0),
-            Padding(
-                padding: EdgeInsets.only(left: 8, right: 8),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Icon(
-                      Icons.menu,
-                      color: Colors.white,
-                    ),
-                    Text("DPTamDan", style: TextStyle(color: Colors.white)),
-                    Icon(
-                      Icons.notifications,
-                      color: Colors.white,
-                    ),
-                  ],
-                )),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
+            _buildHeader(),
+            const SizedBox(height: 16.0),
             _buildSearchField(),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             _buildUserInfo(),
-            SizedBox(height: 16.0),
-            Padding(
-              padding: EdgeInsets.zero,
-              child: Image.asset(
-                "images/banner.jpg",
-                width: double.infinity,
-              ),
-            ),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
+            _buildBanner(galleries.data),
+            const SizedBox(height: 16.0),
             _buildServiceDivider(),
-            SizedBox(height: 16.0),
+            const SizedBox(height: 16.0),
             _buildServiceGridView(),
           ],
         ),
       ),
     );
+  }
+
+  Widget _buildBanner(List<GalleryItem> galleryItems) {
+    // return Padding(
+    //   padding: EdgeInsets.zero,
+    //   child: Image.asset(
+    //     "images/banner.jpg",
+    //     width: double.infinity,
+    //   ),
+    // );
+    return BannerSlider(
+      galleryItems: galleryItems,
+    );
+  }
+
+  Widget _buildHeader() {
+    return const Padding(
+        padding: EdgeInsets.only(left: 8, right: 8),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Icon(
+              Icons.menu,
+              color: Colors.white,
+            ),
+            Text("DPTamDan", style: TextStyle(color: Colors.white)),
+            Icon(
+              Icons.notifications,
+              color: Colors.white,
+            ),
+          ],
+        ));
   }
 
   Widget _buildSearchField() {
@@ -131,8 +148,8 @@ class _HomeTabState extends State<HomeTab> {
           color: Colors.white,
           border: Border.all(color: Colors.grey),
         ),
-        padding: EdgeInsets.symmetric(horizontal: 16.0),
-        child: Row(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: const Row(
           children: [
             Icon(Icons.search, color: Colors.grey),
             SizedBox(width: 8.0),
@@ -148,33 +165,33 @@ class _HomeTabState extends State<HomeTab> {
 
   Widget _buildUserInfo() {
     return Container(
-      margin: EdgeInsets.only(
+      margin: const EdgeInsets.only(
         left: 16,
         right: 16,
       ),
       decoration: BoxDecoration(
-        color: Color(0xfff7e7da),
+        color: const Color(0xfff7e7da),
         borderRadius: BorderRadius.circular(8.0),
         border: Border.all(color: Colors.grey),
       ),
-      padding: EdgeInsets.all(16.0),
+      padding: const EdgeInsets.all(16.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             children: [
-              Text(
+              const Text(
                 'Xin chào, ',
                 style: TextStyle(fontWeight: FontWeight.normal),
               ),
               Text(
                 name ?? "",
-                style: TextStyle(fontWeight: FontWeight.bold),
+                style: const TextStyle(fontWeight: FontWeight.bold),
               ),
             ],
           ),
-          SizedBox(height: 8.0),
-          Row(
+          const SizedBox(height: 8.0),
+          const Row(
             children: [
               Text(
                 '10',
@@ -199,8 +216,8 @@ class _HomeTabState extends State<HomeTab> {
             height: 2.0,
           ),
         ),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+        const Padding(
+          padding: EdgeInsets.symmetric(horizontal: 8.0),
           child: Text(
             'DỊCH VỤ',
             style: TextStyle(
@@ -227,8 +244,8 @@ class _HomeTabState extends State<HomeTab> {
       ),
       child: GridView.builder(
         shrinkWrap: true,
-        physics: NeverScrollableScrollPhysics(),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        physics: const NeverScrollableScrollPhysics(),
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
           crossAxisCount: 3,
           crossAxisSpacing: 8.0,
           mainAxisSpacing: 16.0,
@@ -269,12 +286,12 @@ class _HomeTabState extends State<HomeTab> {
                 borderRadius: BorderRadius.circular(8.0),
                 // color: Colors.red,
               ),
-              padding: EdgeInsets.all(16.0),
+              padding: const EdgeInsets.all(16.0),
               child: SvgPicture.asset(
                 serviceItems[index]['icon'],
                 // height: 32.0,
                 // width: 32.0,
-                color: Color(0xffb33535),
+                color: const Color(0xffb33535),
               ),
             ),
           ),
@@ -283,7 +300,7 @@ class _HomeTabState extends State<HomeTab> {
             child: Text(
               serviceItems[index]['text'],
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 fontSize: 12.0,
                 fontWeight: FontWeight.w600,
                 color: Color(0xff5b5b5b),
@@ -292,6 +309,72 @@ class _HomeTabState extends State<HomeTab> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class BannerSlider extends StatefulWidget {
+  final List<GalleryItem> galleryItems;
+
+  BannerSlider({required this.galleryItems});
+
+  @override
+  _BannerSliderState createState() => _BannerSliderState();
+}
+
+class _BannerSliderState extends State<BannerSlider> {
+  late PageController _pageController;
+  int _currentPage = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _pageController = PageController();
+    _startAutoSlide();
+  }
+
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
+  void _startAutoSlide() {
+    Future.delayed(Duration(seconds: 2)).then((_) {
+      if (mounted) {
+        _pageController.nextPage(
+          duration: Duration(milliseconds: 500),
+          curve: Curves.easeInOut,
+        );
+        _startAutoSlide();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      height: 80,
+      child: PageView.builder(
+        controller: _pageController,
+        itemCount: widget.galleryItems.length,
+        onPageChanged: (index) {
+          setState(() {
+            _currentPage = index;
+          });
+        },
+        itemBuilder: (context, index) {
+          return _buildBannerItem(widget.galleryItems[index]);
+        },
+      ),
+    );
+  }
+
+  Widget _buildBannerItem(GalleryItem item) {
+    return Image.network(
+      item.imageUrl,
+      width: double.infinity,
+      fit: BoxFit.cover,
     );
   }
 }

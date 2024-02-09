@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class UserTab extends StatefulWidget {
+  const UserTab({super.key});
+
   @override
   State<UserTab> createState() => _UserTabState();
 }
@@ -23,7 +22,7 @@ class _UserTabState extends State<UserTab> {
 
   Widget _buildBody(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
+      decoration: const BoxDecoration(
         image: DecorationImage(
           image: AssetImage('images/home-bg.png'),
           fit: BoxFit.fill,
@@ -32,7 +31,7 @@ class _UserTabState extends State<UserTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Padding(
+          const Padding(
             padding: EdgeInsets.only(top: 16, left: 16, right: 16),
             child: Center(
               child: Text(
@@ -45,7 +44,7 @@ class _UserTabState extends State<UserTab> {
               ),
             ),
           ),
-          SizedBox(height: 16.0),
+          const SizedBox(height: 16.0),
           Container(
             width: MediaQuery.of(context).size.width,
             decoration: BoxDecoration(
@@ -54,8 +53,8 @@ class _UserTabState extends State<UserTab> {
             ),
             child: Column(
               children: [
-                SizedBox(height: 16),
-                Text(
+                const SizedBox(height: 16),
+                const Text(
                   "Khách hàng tiêu dùng",
                   style: TextStyle(
                     color: Colors.black,
@@ -63,8 +62,8 @@ class _UserTabState extends State<UserTab> {
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(height: 16),
-                Row(
+                const SizedBox(height: 16),
+                const Row(
                   children: [
                     CircleAvatar(
                       backgroundImage: AssetImage(
@@ -80,14 +79,14 @@ class _UserTabState extends State<UserTab> {
                     ),
                   ],
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
                 Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Họ và tên *", style: TextStyle(color: Colors.grey)),
-                      SizedBox(height: 8),
+                      const Text("Họ và tên *", style: TextStyle(color: Colors.grey)),
+                      const SizedBox(height: 8),
                       TextField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -96,10 +95,10 @@ class _UserTabState extends State<UserTab> {
                           hintText: "Nhập họ và tên của bạn",
                         ),
                       ),
-                      SizedBox(height: 16),
-                      Text("Điện thoại *",
+                      const SizedBox(height: 16),
+                      const Text("Điện thoại *",
                           style: TextStyle(color: Colors.grey)),
-                      SizedBox(height: 8),
+                      const SizedBox(height: 8),
                       TextField(
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
@@ -111,8 +110,8 @@ class _UserTabState extends State<UserTab> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16),
-                Container(
+                const SizedBox(height: 16),
+                SizedBox(
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: ElevatedButton(
                     onPressed: () {
@@ -120,17 +119,17 @@ class _UserTabState extends State<UserTab> {
                     },
                     style: ElevatedButton.styleFrom(
                       // background: Colors.red,
-                      primary: Colors.red, // màu
+                      backgroundColor: Colors.red, // màu
 
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
                     child:
-                        Text("Xác nhận", style: TextStyle(color: Colors.white)),
+                        const Text("Xác nhận", style: TextStyle(color: Colors.white)),
                   ),
                 ),
-                SizedBox(height: 16),
+                const SizedBox(height: 16),
               ],
             ),
           ),

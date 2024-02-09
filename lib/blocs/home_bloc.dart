@@ -3,7 +3,6 @@ import 'package:bloc/bloc.dart';
 import 'package:DPTamDan/models/gallery.dart';
 import 'package:DPTamDan/models/category.dart';
 import 'package:DPTamDan/models/product.dart';
-import 'package:meta/meta.dart';
 
 import '../events/home_event.dart';
 import '../services/api_service.dart';
@@ -26,15 +25,13 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
   Stream<HomeScreenState> _mapFetchDataToState() async* {
     yield LoadingState();
     try {
-      final responseData = await apiService.fetchData();print(responseData);
-      final List<Gallery> galleries = (responseData['galleries'] as List)
-          .map((item) => Gallery.fromJson(item))
-          .toList();
-      final List<Category> categories = (responseData['categories'] as List)
-          .map((item) => Category.fromJson(item))
-          .toList();
-      final List<Product> products = (responseData['products'] as List)
-          .map((item) => Product.fromJson(item))
+      final responseData = await apiService.fetchData();
+      final Gallery galleries = Gallery.fromJson(responseData[0]);
+      final Category categories = Category.fromJson(responseData[1]);
+      // final Product products = Product.fromJson(responseData[0]);
+      final List<Product> products = (responseData[2]['data'] as List<dynamic>)
+          .map<Product>(
+              (item) => Product.fromJson(item as Map<String, dynamic>))
           .toList();
       yield DataLoadedState(
         galleries: galleries,
@@ -46,4 +43,3 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
     }
   }
 }
-

@@ -6,6 +6,8 @@ import '../events/authentication_events.dart';
 import '../states/authentication_states.dart';
 
 class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
   @override
   _LoginScreenState createState() => _LoginScreenState();
 }
@@ -33,11 +35,14 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
+    _usernameController.text = "0166166166";
+    _passwordController.text = "admin123";
+
     return BlocProvider(
       create: (context) => _authBloc,
       child: Scaffold(
         body: Container(
-          decoration: BoxDecoration(
+          decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage('images/bg_register.png'),
               fit: BoxFit.cover,
@@ -50,18 +55,18 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Container(
+                    SizedBox(
                       width: MediaQuery.of(context).size.width * 0.6,
                       child: Image.asset('images/register-logo.png'),
                     ),
-                    SizedBox(height: 30.0),
+                    const SizedBox(height: 30.0),
                     _buildTextField("SỐ ĐIỆN THOẠI", "Nhập số điện thoại",
                         _usernameController),
                     _buildPasswordTextField(
                         "MẬT KHẨU", "Nhập mật khẩu", _passwordController),
-                    SizedBox(height: 16.0),
+                    const SizedBox(height: 16.0),
                     _buildLoginButton(context),
-                    SizedBox(height: 8.0),
+                    const SizedBox(height: 8.0),
                     _buildAdditionalOptions(),
                   ],
                 ),
@@ -77,23 +82,23 @@ class _LoginScreenState extends State<LoginScreen> {
       String label, String hint, TextEditingController controller) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: TextStyle(color: Color(0xFF073f84)),
+            style: const TextStyle(color: Color(0xFF073f84)),
           ),
           TextField(
             controller: controller,
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: TextStyle(color: Colors.grey),
+              hintStyle: const TextStyle(color: Colors.grey),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide(color: Colors.white),
+                borderSide: const BorderSide(color: Colors.white),
               ),
               filled: true,
               fillColor: Colors.white.withOpacity(0.5),
@@ -108,24 +113,24 @@ class _LoginScreenState extends State<LoginScreen> {
       String label, String hint, TextEditingController controller) {
     return Container(
       width: double.infinity,
-      margin: EdgeInsets.symmetric(vertical: 8.0),
+      margin: const EdgeInsets.symmetric(vertical: 8.0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
-            style: TextStyle(color: Color(0xFF073f84)),
+            style: const TextStyle(color: Color(0xFF073f84)),
           ),
           TextField(
             controller: controller,
             obscureText: _isPasswordObscured,
-            style: TextStyle(color: Colors.grey),
+            style: const TextStyle(color: Colors.grey),
             decoration: InputDecoration(
               hintText: hint,
-              hintStyle: TextStyle(color: Colors.grey),
+              hintStyle: const TextStyle(color: Colors.grey),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(8.0),
-                borderSide: BorderSide(color: Colors.grey),
+                borderSide: const BorderSide(color: Colors.grey),
               ),
               filled: true,
               fillColor: Colors.white.withOpacity(0.5),
@@ -153,13 +158,13 @@ class _LoginScreenState extends State<LoginScreen> {
       children: [
         TextButton(
           onPressed: () {},
-          child: Text(
+          child: const Text(
             "Quên mật khẩu",
             style: TextStyle(color: Color(0xFF073f84)),
           ),
         ),
-        SizedBox(width: 8.0),
-        Container(
+        const SizedBox(width: 8.0),
+        SizedBox(
           width: MediaQuery.of(context).size.width * 0.3,
           child: ElevatedButton(
             onPressed: () {
@@ -171,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
-            child: Text("Đăng ký", style: TextStyle(color: Colors.red)),
+            child: const Text("Đăng ký", style: TextStyle(color: Colors.red)),
           ),
         ),
       ],
@@ -182,7 +187,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return BlocBuilder<AuthenticationBloc, AuthenticationState>(
       builder: (context, state) {
         if (state is AuthenticationLoading) {
-          return CircularProgressIndicator();
+          return const CircularProgressIndicator();
           // } else if (state is AuthenticationFailure) {
           //   return Text(state.error);
         } else {
@@ -190,10 +195,10 @@ class _LoginScreenState extends State<LoginScreen> {
             children: [
               if (state is AuthenticationFailure)
                 Text(state.error.toString(),
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.red,
                     )),
-              Container(
+              SizedBox(
                 width: MediaQuery.of(context).size.width * 0.5,
                 child: ElevatedButton(
                   onPressed: () {
@@ -203,13 +208,13 @@ class _LoginScreenState extends State<LoginScreen> {
                         LoginEvent(username: username, password: password));
                   },
                   style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.all(20),
+                    padding: const EdgeInsets.all(20),
                     backgroundColor: Colors.blue[900],
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),
                   ),
-                  child: Text("ĐĂNG NHẬP",
+                  child: const Text("ĐĂNG NHẬP",
                       style: TextStyle(fontSize: 20, color: Colors.white)),
                 ),
               ),

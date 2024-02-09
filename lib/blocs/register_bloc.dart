@@ -15,7 +15,12 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
       try {
         final response = await http.post(
           Uri.parse('https://tamdan.devone.vn/api/user/signup'),
-          headers: {'Content-Type': 'text/plain'},
+          headers: {
+            "Content-Type": "application/json",
+            "access-control-allow-headers":
+                "access-control-allow-origin, accept",
+            "access-control-allow-origin": "*",
+          },
           body: jsonEncode({
             'name': event.name,
             'username': event.username,
@@ -30,10 +35,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         } else if (responseData['status'] == 400) {
           final errors = responseData['result'];
           yield RegisterFailure(
-            error: "validation", 
+            error: "validation",
             nameError: errors['name'] ?? '',
             usernameError: errors['username'] ?? '',
-            passwordError: errors['password'] ?? '',);
+            passwordError: errors['password'] ?? '',
+          );
         } else {
           yield RegisterFailure(error: 'Đăng ký thất bại');
         }
@@ -43,4 +49,3 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     }
   }
 }
-

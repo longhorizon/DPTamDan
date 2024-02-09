@@ -11,10 +11,12 @@ import 'screens/home_screen.dart';
 import 'services/api_service.dart';
 
 void main() {
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({super.key});
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -41,13 +43,15 @@ class MyApp extends StatelessWidget {
         ),
         initialRoute: '/',
         routes: {
-          '/': (context) => SplashScreen(),
+          '/': (context) => const SplashScreen(),
           '/login': (context) => BlocProvider.value(
-              value: context.read<AuthenticationBloc>(), child: LoginScreen()),
+              value: context.read<AuthenticationBloc>(),
+              child: const LoginScreen()),
           '/register': (context) => BlocProvider.value(
-              value: context.read<RegisterBloc>(), child: RegisterScreen()),
+              value: context.read<RegisterBloc>(),
+              child: const RegisterScreen()),
           '/home': (context) => BlocProvider.value(
-              value: context.read<HomeScreenBloc>(), child: HomeScreen()),
+              value: context.read<HomeScreenBloc>(), child: const HomeScreen()),
         },
         debugShowCheckedModeBanner: false,
       ),
