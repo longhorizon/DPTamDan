@@ -35,8 +35,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    _usernameController.text = "0166166166";
-    _passwordController.text = "admin123";
+    // _usernameController.text = "0166166166";
+    // _passwordController.text = "admin123";
 
     return BlocProvider(
       create: (context) => _authBloc,

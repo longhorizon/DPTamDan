@@ -1,4 +1,4 @@
-package com.example.tamlan
+package com.example.tamdan
 
 import io.flutter.embedding.android.FlutterActivity
 

@@ -49,6 +49,7 @@ class _UserTabState extends State<UserTab> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          const SizedBox(height: 16.0),
           const Padding(
             padding: EdgeInsets.only(top: 16, left: 16, right: 16),
             child: Center(
@@ -96,7 +97,10 @@ class _UserTabState extends State<UserTab> {
                 //     ),
                 //   ],
                 // ),
-                AvatarUpdateRow(),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: AvatarUpdateRow(),
+                ),
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),

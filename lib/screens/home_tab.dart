@@ -29,7 +29,9 @@ class _HomeTabState extends State<HomeTab> {
 
   getUserName() async {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
-    name = prefs.getString('last_name').toString();
+    setState(() {
+      name = prefs.getString('last_name').toString();
+    });
   }
 
   @override

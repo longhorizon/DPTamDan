@@ -90,12 +90,12 @@ BEGIN
         BLOCK "040904e4"
         BEGIN
             VALUE "CompanyName", "com.example" "\0"
-            VALUE "FileDescription", "tamlan" "\0"
+            VALUE "FileDescription", "tamdan" "\0"
             VALUE "FileVersion", VERSION_AS_STRING "\0"
-            VALUE "InternalName", "tamlan" "\0"
+            VALUE "InternalName", "tamdan" "\0"
             VALUE "LegalCopyright", "Copyright (C) 2024 com.example. All rights reserved." "\0"
-            VALUE "OriginalFilename", "tamlan.exe" "\0"
-            VALUE "ProductName", "tamlan" "\0"
+            VALUE "OriginalFilename", "tamdan.exe" "\0"
+            VALUE "ProductName", "tamdan" "\0"
             VALUE "ProductVersion", VERSION_AS_STRING "\0"
         END
     END
