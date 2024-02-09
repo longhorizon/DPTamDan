@@ -1,0 +1,6 @@
+# Flutter
+.dart_tool/
+.idea/
+build/
+ios/Flutter/
+android/build/
