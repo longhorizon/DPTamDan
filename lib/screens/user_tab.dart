@@ -1,4 +1,8 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class UserTab extends StatefulWidget {
   const UserTab({super.key});
@@ -8,9 +12,23 @@ class UserTab extends StatefulWidget {
 }
 
 class _UserTabState extends State<UserTab> {
+  late String userName;
+  late String lastName;
+  TextEditingController nameControlle = new TextEditingController();
+  TextEditingController phoneControlle = new TextEditingController();
+
   @override
   void initState() {
     super.initState();
+    getData();
+  }
+
+  getData() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    userName = prefs.getString('user_name').toString();
+    lastName = prefs.getString('last_name').toString();
+    nameControlle.text = lastName;
+    phoneControlle.text = userName;
   }
 
   @override
@@ -63,31 +81,33 @@ class _UserTabState extends State<UserTab> {
                   ),
                 ),
                 const SizedBox(height: 16),
-                const Row(
-                  children: [
-                    CircleAvatar(
-                      backgroundImage: AssetImage(
-                          'images/avatar_default.jpg'), // Hình ảnh avatar mặc định
-                      radius: 30,
-                    ),
-                    SizedBox(width: 16),
-                    Expanded(
-                      child: Text(
-                        "Bấm cập nhật ảnh đại diện",
-                        style: TextStyle(color: Colors.blue),
-                      ),
-                    ),
-                  ],
-                ),
+                // const Row(
+                //   children: [
+                //     CircleAvatar(
+                //       backgroundImage: AssetImage('images/avatar_default.png'),
+                //       radius: 30,
+                //     ),
+                //     SizedBox(width: 16),
+                //     Expanded(
+                //       child: Text(
+                //         "Bấm cập nhật ảnh đại diện",
+                //         style: TextStyle(color: Colors.blue),
+                //       ),
+                //     ),
+                //   ],
+                // ),
+                AvatarUpdateRow(),
                 const SizedBox(height: 16),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 16),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const Text("Họ và tên *", style: TextStyle(color: Colors.grey)),
+                      const Text("Họ và tên *",
+                          style: TextStyle(color: Colors.grey)),
                       const SizedBox(height: 8),
                       TextField(
+                        controller: nameControlle,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -100,6 +120,7 @@ class _UserTabState extends State<UserTab> {
                           style: TextStyle(color: Colors.grey)),
                       const SizedBox(height: 8),
                       TextField(
+                        controller: phoneControlle,
                         decoration: InputDecoration(
                           border: OutlineInputBorder(
                             borderRadius: BorderRadius.circular(8),
@@ -125,8 +146,8 @@ class _UserTabState extends State<UserTab> {
                         borderRadius: BorderRadius.circular(8),
                       ),
                     ),
-                    child:
-                        const Text("Xác nhận", style: TextStyle(color: Colors.white)),
+                    child: const Text("Xác nhận",
+                        style: TextStyle(color: Colors.white)),
                   ),
                 ),
                 const SizedBox(height: 16),
@@ -135,6 +156,54 @@ class _UserTabState extends State<UserTab> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class AvatarUpdateRow extends StatefulWidget {
+  @override
+  _AvatarUpdateRowState createState() => _AvatarUpdateRowState();
+}
+
+class _AvatarUpdateRowState extends State<AvatarUpdateRow> {
+  File? _selectedImage;
+
+  Future<void> _pickImage() async {
+    final pickedFile =
+        await ImagePicker().getImage(source: ImageSource.gallery);
+
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Row(
+      children: [
+        CircleAvatar(
+          // backgroundImage: _selectedImage != null
+          //     ? FileImage(_selectedImage!)
+          //     : AssetImage('images/avatar_default.jpg'),
+          backgroundImage: _selectedImage != null
+              ? FileImage(_selectedImage!)
+              : AssetImage('images/avatar_default.png') as ImageProvider,
+
+          radius: 30,
+        ),
+        SizedBox(width: 16),
+        Expanded(
+          child: GestureDetector(
+            onTap: _pickImage,
+            child: Text(
+              "Bấm cập nhật ảnh đại diện",
+              style: TextStyle(color: Colors.blue),
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

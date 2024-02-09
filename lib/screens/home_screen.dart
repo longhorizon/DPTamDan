@@ -1,4 +1,3 @@
-
 import 'package:DPTamDan/screens/user_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -118,7 +117,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
             _buildNavItem(
               context,
-              "images/icons/taikhoan.svg",
+              "images/icons/user-circle.svg",
               'Tài khoản',
               3,
               state,

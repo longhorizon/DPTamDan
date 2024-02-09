@@ -2,6 +2,7 @@ import 'package:DPTamDan/models/category.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../blocs/home_bloc.dart';
 import '../events/home_event.dart';
@@ -17,12 +18,18 @@ class HomeTab extends StatefulWidget {
 }
 
 class _HomeTabState extends State<HomeTab> {
-  String name = "lan";
+  String name = "";
 
   @override
   void initState() {
     super.initState();
     context.read<HomeScreenBloc>().add(FetchDataEvent());
+    getUserName();
+  }
+
+  getUserName() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    name = prefs.getString('last_name').toString();
   }
 
   @override
@@ -74,30 +81,45 @@ class _HomeTabState extends State<HomeTab> {
 
   Widget _buildBody(BuildContext context, Gallery galleries,
       Category categories, List<Product> products) {
-    return Container(
-      decoration: const BoxDecoration(
-        image: DecorationImage(
-          image: AssetImage('images/home-bg.png'),
-          fit: BoxFit.fill,
+    return SingleChildScrollView(
+      child: Container(
+        decoration: const BoxDecoration(
+          image: DecorationImage(
+            image: AssetImage('images/home-bg.png'),
+            fit: BoxFit.fill,
+          ),
         ),
-      ),
-      child: Padding(
-        padding: const EdgeInsets.only(top: 16, bottom: 16),
-        child: Column(
-          children: [
-            const SizedBox(height: 16.0),
-            _buildHeader(),
-            const SizedBox(height: 16.0),
-            _buildSearchField(),
-            const SizedBox(height: 16.0),
-            _buildUserInfo(),
-            const SizedBox(height: 16.0),
-            _buildBanner(galleries.data),
-            const SizedBox(height: 16.0),
-            _buildServiceDivider(),
-            const SizedBox(height: 16.0),
-            _buildServiceGridView(),
-          ],
+        child: Padding(
+          padding: const EdgeInsets.only(top: 16, bottom: 16),
+          child: Column(
+            children: [
+              const SizedBox(height: 16.0),
+              _buildHeader(),
+              const SizedBox(height: 16.0),
+              _buildSearchField(),
+              const SizedBox(height: 16.0),
+              _buildUserInfo(),
+              const SizedBox(height: 16.0),
+              _buildBanner(galleries.data),
+              const SizedBox(height: 16.0),
+              _buildServiceDivider(),
+              const SizedBox(height: 16.0),
+              _buildServiceGridView(),
+              const SizedBox(height: 16.0),
+              // Expanded(
+              //   child: ListView.builder(
+              //     itemCount: products.length,
+              //     itemBuilder: (context, index) {
+              //       return ProductItem(product: products[index]);
+              //     },
+              //   ),
+              // ),
+              ProductContainer(
+                products: products,
+              ),
+              const SizedBox(height: 40.0),
+            ],
+          ),
         ),
       ),
     );
@@ -340,7 +362,7 @@ class _BannerSliderState extends State<BannerSlider> {
   }
 
   void _startAutoSlide() {
-    Future.delayed(Duration(seconds: 2)).then((_) {
+    Future.delayed(Duration(seconds: 3)).then((_) {
       if (mounted) {
         _pageController.nextPage(
           duration: Duration(milliseconds: 500),
@@ -375,6 +397,144 @@ class _BannerSliderState extends State<BannerSlider> {
       item.imageUrl,
       width: double.infinity,
       fit: BoxFit.cover,
+    );
+  }
+}
+
+class ProductContainer extends StatelessWidget {
+  final List<Product> products;
+
+  ProductContainer({required this.products});
+  @override
+  Widget build(BuildContext context) {
+    // return Container(
+    //   width: double.infinity,
+    //   // height: 200, // Điều chỉnh chiều cao theo ý muốn của bạn
+    //   decoration: BoxDecoration(
+    //     gradient: LinearGradient(
+    //       colors: [Color(0xffa0bde7), Colors.white],
+    //       begin: Alignment.topCenter,
+    //       end: Alignment.bottomCenter,
+    //       stops: [0.0, 1.0],
+    //       tileMode: TileMode.clamp,
+    //     ),
+    //   ),
+    //   child: Column(
+    //     children:
+    //         products.map((product) => ProductItem(product: product)).toList(),
+    //   ),
+    // );
+    return Container(
+      height: MediaQuery.of(context).size.height + 100,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [Color(0xffa0bde7), Colors.white],
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          stops: [0.0, 1.0],
+          tileMode: TileMode.clamp,
+        ),
+      ),
+      child: ListView.builder(
+        physics: NeverScrollableScrollPhysics(),
+        itemCount: products.length,
+        itemBuilder: (context, index) {
+          return ProductItem(product: products[index]);
+        },
+      ),
+    );
+  }
+}
+
+class ProductItem extends StatelessWidget {
+  final Product product;
+
+  ProductItem({required this.product});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: MediaQuery.of(context).size.width / 3,
+      margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(8.0),
+          topRight: Radius.circular(8.0),
+          bottomLeft: Radius.circular(8.0),
+          bottomRight: Radius.circular(8.0),
+        ),
+        border: Border.all(color: Color(0xff6899e0), width: 2.0),
+      ),
+      child: Column(
+        children: [
+          Container(
+            height: 160,
+            width: double.infinity,
+            child: Stack(
+              children: [
+                Positioned.fill(
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(8.0),
+                      topRight: Radius.circular(8.0),
+                    ),
+                    child: Image.network(
+                      product.image,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    height: 2.0,
+                    color: Color(0xff6899e0),
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Row(
+              children: [
+                Expanded(
+                  flex: 2,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        product.name,
+                        style: TextStyle(
+                            fontSize: 16.0, fontWeight: FontWeight.bold),
+                      ),
+                      SizedBox(height: 4.0),
+                      Text(
+                        product.price.toString(),
+                        style: TextStyle(color: Colors.red, fontSize: 14.0),
+                      ),
+                    ],
+                  ),
+                ),
+                Expanded(
+                  child: Container(
+                    padding: EdgeInsets.all(8.0),
+                    decoration: BoxDecoration(
+                      border: Border(
+                          left:
+                              BorderSide(color: Color(0xff6899e0), width: 2.0)),
+                    ),
+                    child: Icon(Icons.shopping_cart, color: Colors.blue),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

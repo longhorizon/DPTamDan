@@ -28,7 +28,6 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
       final responseData = await apiService.fetchData();
       final Gallery galleries = Gallery.fromJson(responseData[0]);
       final Category categories = Category.fromJson(responseData[1]);
-      // final Product products = Product.fromJson(responseData[0]);
       final List<Product> products = (responseData[2]['data'] as List<dynamic>)
           .map<Product>(
               (item) => Product.fromJson(item as Map<String, dynamic>))

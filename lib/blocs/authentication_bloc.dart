@@ -48,8 +48,10 @@ class AuthenticationBloc
         // }
       } catch (error) {
         print(error.toString());
-        yield const AuthenticationFailure(
-            error: "Tài khoản không tồn tại hoặc mật khẩu không chính xác.");
+        yield AuthenticationFailure(
+            // error: "Tài khoản không tồn tại hoặc mật khẩu không chính xác.");
+            error: error.toString() ??
+                "Tài khoản không tồn tại hoặc mật khẩu không chính xác.");
       }
     }
   }
@@ -74,6 +76,7 @@ class AuthenticationBloc
       final responseData = json.decode(response.body);
       if (response.statusCode == 200) {
         await prefs.setString('user_id', responseData['result']['id']);
+        await prefs.setString('user_name', responseData['result']['username']);
         await prefs.setString('last_name', responseData['result']['last_name']);
       }
     } catch (error) {
