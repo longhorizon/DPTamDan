@@ -1,6 +1,5 @@
-import 'package:equatable/equatable.dart';
 
-abstract class AuthenticationEvent extends Equatable {
+abstract class AuthenticationEvent {
   const AuthenticationEvent();
 
   @override

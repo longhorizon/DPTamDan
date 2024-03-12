@@ -1,3 +1,4 @@
+import 'package:DPTamDan/screens/product_tab.dart';
 import 'package:DPTamDan/screens/user_tab.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -7,6 +8,7 @@ import '../states/home_state.dart';
 import '../states/navigation_state.dart';
 import '../events/navigation_event.dart';
 import './home_tab.dart';
+import 'cart_tab.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -16,33 +18,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  // Future<void> _fetchDataAndCallAPI(BuildContext context) async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   String? token = prefs.getString('token');
-  //   try {
-  //     final response = await http.post(
-  //       Uri.parse('https://tamdan.devone.vn/api/client/home'),
-  //       headers: {
-  //         'Content-Type': 'application/json',
-  //         'Authorization': 'Bearer $token',
-  //       },
-  //     );
-
-  //     if (response.statusCode == 200) {
-  //       final responseData = json.decode(response.body);
-  //       print(responseData);
-  //       // final gallery = Gallery.fromJson(responseData['result'][0]);
-  //       // final categories = Category.fromJson(responseData['result'][1]);
-  //       // final products = (responseData['result'][2] as List)
-  //       //     .map((item) => Product.fromJson(item))
-  //       //     .toList();
-  //     } else {
-  //       throw Exception('Failed to load home data');
-  //     }
-  //   } catch (error) {
-  //     print('Error fetching home data: $error');
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,7 +29,6 @@ class _HomeScreenState extends State<HomeScreen> {
         }
         return Scaffold(
           backgroundColor: Colors.white,
-          // body: _buildBody(tabIndex),
           body: Stack(
             children: [
               _buildBody(tabIndex),
@@ -89,41 +63,38 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(vertical: 8.0),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            _buildNavItem(
-              context,
-              "images/icons/trangchu.svg",
-              'Trang chủ',
-              0,
-              state,
-            ),
-            _buildNavItem(
-              context,
-              "images/icons/sanpham-menu.svg",
-              'Sản phẩm',
-              1,
-              state,
-            ),
-            _buildNavItem(
-              context,
-              "images/icons/giohang-menu.svg",
-              'Giỏ hàng',
-              2,
-              state,
-            ),
-            _buildNavItem(
-              context,
-              "images/icons/user-circle.svg",
-              'Tài khoản',
-              3,
-              state,
-            ),
-          ],
-        ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildNavItem(
+            context,
+            "images/icons/trangchu.svg",
+            'Trang chủ',
+            0,
+            state,
+          ),
+          _buildNavItem(
+            context,
+            "images/icons/sanpham-menu.svg",
+            'Sản phẩm',
+            1,
+            state,
+          ),
+          _buildNavItem(
+            context,
+            "images/icons/giohang-menu.svg",
+            'Giỏ hàng',
+            2,
+            state,
+          ),
+          _buildNavItem(
+            context,
+            "images/icons/user-circle.svg",
+            'Tài khoản',
+            3,
+            state,
+          ),
+        ],
       ),
     );
   }
@@ -142,15 +113,15 @@ class _HomeScreenState extends State<HomeScreen> {
         context.read<NavigationBloc>().add(ChangeTabEvent(index));
       },
       child: Container(
-        padding: const EdgeInsets.all(8.0),
-        // decoration: isSelected
-        //     ? BoxDecoration(
-        //         border: Border(
-        //           top: BorderSide(width: 2.0, color: Colors.white),
-        //           bottom: BorderSide(width: 2.0, color: Colors.white),
-        //         ),
-        //       )
-        //     : null,
+        padding: const EdgeInsets.only(left: 8, top:16, right: 8, bottom: 12),
+        decoration: isSelected
+            ? BoxDecoration(
+            image: DecorationImage(
+              image: AssetImage('images/nav-bg.jpg'),
+              fit: BoxFit.fitHeight,
+            ),
+              )
+            : null,
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
@@ -163,7 +134,7 @@ class _HomeScreenState extends State<HomeScreen> {
               height: 30,
               child: SvgPicture.asset(
                 icon,
-                color: isSelected ? Colors.white : Colors.grey,
+                color: Colors.white,
                 width: 30,
               ),
             ),
@@ -171,7 +142,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Text(
               label,
               style: TextStyle(
-                color: isSelected ? Colors.white : Colors.grey,
+                color: Colors.white,
               ),
             ),
           ],
@@ -185,13 +156,9 @@ class _HomeScreenState extends State<HomeScreen> {
       case 0:
         return const HomeTab();
       case 1:
-        return const Center(
-          child: Text("Sản phẩm"),
-        );
+        return ProductTab();
       case 2:
-        return const Center(
-          child: Text("Giỏ hàng"),
-        );
+        return const CartTab();
       case 3:
         return const UserTab();
       default:

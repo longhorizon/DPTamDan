@@ -1,3 +1,4 @@
+import 'package:DPTamDan/screens/forgot_pass_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -14,7 +15,6 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   bool _isPasswordObscured = true;
-  // final AuthenticationBloc _authBloc = AuthenticationBloc();
   late AuthenticationBloc _authBloc;
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
@@ -35,8 +35,12 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // _usernameController.text = "0166166166";
-    // _passwordController.text = "admin123";
+    _usernameController.text = "0166166166";
+    _passwordController.text = "admin123";
+    // _usernameController.text = "0946328363";
+    // _passwordController.text = "0946328363";
+    // _usernameController.text = "0968678215";
+    // _passwordController.text = "0968678215";
 
     return BlocProvider(
       create: (context) => _authBloc,
@@ -90,6 +94,9 @@ class _LoginScreenState extends State<LoginScreen> {
             label,
             style: const TextStyle(color: Color(0xFF073f84)),
           ),
+          SizedBox(
+            height: 4,
+          ),
           TextField(
             controller: controller,
             style: const TextStyle(color: Colors.grey),
@@ -120,6 +127,9 @@ class _LoginScreenState extends State<LoginScreen> {
           Text(
             label,
             style: const TextStyle(color: Color(0xFF073f84)),
+          ),
+          SizedBox(
+            height: 4,
           ),
           TextField(
             controller: controller,
@@ -157,7 +167,11 @@ class _LoginScreenState extends State<LoginScreen> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ForgorPasswordScreen(),
+            ));
+          },
           child: const Text(
             "Quên mật khẩu",
             style: TextStyle(color: Color(0xFF073f84)),
@@ -168,7 +182,7 @@ class _LoginScreenState extends State<LoginScreen> {
           width: MediaQuery.of(context).size.width * 0.3,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.pushReplacementNamed(context, '/register');
+              Navigator.pushNamed(context, '/register');
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.white,
@@ -209,7 +223,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   },
                   style: ElevatedButton.styleFrom(
                     padding: const EdgeInsets.all(20),
-                    backgroundColor: Colors.blue[900],
+                    backgroundColor: Color(0xff073f65),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(8.0),
                     ),

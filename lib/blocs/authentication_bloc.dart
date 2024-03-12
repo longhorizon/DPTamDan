@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
-import '../const/conts.dart';
+import '../const/const.dart';
 import '../events/authentication_events.dart';
 import '../states/authentication_states.dart';
 
@@ -37,10 +37,19 @@ class AuthenticationBloc
 
         final responseData = json.decode(response.body);
         if (response.statusCode == 200) {
-          final token = responseData['result']['token'];
-          saveTokenToSharedPreferences(token);
-          yield AuthenticationSuccess(token: token);
-          Navigator.pushReplacementNamed(context, '/home');
+          if( responseData['status'] == 200)
+          {
+            final token = responseData['result']['token'];
+            saveTokenToSharedPreferences(token);
+            yield AuthenticationSuccess(token: token);
+            Navigator.pushReplacementNamed(context, '/home');
+          }
+          else if( responseData['status'] == 400)
+          {
+            yield AuthenticationFailure(error: responseData['message'] ?? "");
+          }
+          else
+            AuthenticationFailure(error: "Tài khoản không tồn tại hoặc mật khẩu không chính xác.");
         }
         // else {
         //   print(message);

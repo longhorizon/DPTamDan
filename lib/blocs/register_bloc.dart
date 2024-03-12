@@ -4,6 +4,7 @@ import 'dart:convert';
 
 import '../events/register_event.dart';
 import '../states/register_state.dart';
+import '../const/const.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
   RegisterBloc() : super(RegisterInitial());
@@ -13,8 +14,10 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     if (event is RegisterButtonPressed) {
       yield RegisterLoading();
       try {
+        var uri = Uri.https(Constants.apiUrl, 'api/user/signup');
         final response = await http.post(
-          Uri.parse('https://tamdan.devone.vn/api/user/signup'),
+          // Uri.parse('https://tamdan.devone.vn/api/user/signup'),
+          uri,
           headers: {
             "Content-Type": "application/json",
             "access-control-allow-headers":

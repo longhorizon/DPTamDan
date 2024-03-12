@@ -17,30 +17,30 @@ class Category {
 }
 
 class CategoryItem {
+  final String id;
   final String name;
   final String link;
-  final int type;
+  final String type;
   final String iconUrl;
   final String imageUrl;
-  final List<dynamic> sub;
 
   CategoryItem({
+    required this.id,
     required this.name,
     required this.link,
     required this.type,
     required this.iconUrl,
     required this.imageUrl,
-    required this.sub,
   });
 
   factory CategoryItem.fromJson(Map<String, dynamic> json) {
     return CategoryItem(
-      name: json['name'],
-      link: json['link'],
-      type: json['type'],
-      iconUrl: json['icon_url'],
-      imageUrl: json['image_url'],
-      sub: json['sub'],
+      id: json['id'] ?? "",
+      name: json['name'] ?? "",
+      link: json['link'] ?? "",
+      type: json['type'] ?? "",
+      iconUrl: json['icon_url'] ?? "",
+      imageUrl: json['image_url'] ?? "",
     );
   }
 }

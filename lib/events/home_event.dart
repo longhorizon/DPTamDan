@@ -1,6 +1,4 @@
-import 'package:equatable/equatable.dart';
-
-abstract class HomeScreenEvent extends Equatable {
+abstract class HomeScreenEvent {
   const HomeScreenEvent();
 
   @override
@@ -8,6 +6,11 @@ abstract class HomeScreenEvent extends Equatable {
 }
 
 class FetchDataEvent extends HomeScreenEvent {}
+
+class SearchEvent extends HomeScreenEvent {
+  final String key;
+
+  SearchEvent(this.key);}
 
 class DataLoadedEvent extends HomeScreenEvent {}
 

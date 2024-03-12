@@ -1,9 +1,21 @@
 import 'package:DPTamDan/blocs/authentication_bloc.dart';
+import 'package:DPTamDan/blocs/branch_bloc.dart';
+import 'package:DPTamDan/blocs/noti_bloc.dart';
+import 'package:DPTamDan/blocs/order_bloc.dart';
 import 'package:DPTamDan/blocs/register_bloc.dart';
+import 'package:DPTamDan/screens/address_screen.dart';
+import 'package:DPTamDan/screens/branch_screen.dart';
+import 'package:DPTamDan/screens/list_order_screen.dart';
+import 'package:DPTamDan/screens/noti_screen.dart';
+import 'package:DPTamDan/screens/order_screen.dart';
+import 'package:DPTamDan/screens/search_screen.dart';
+import 'package:DPTamDan/screens/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'blocs/cart_bloc.dart';
 import 'blocs/home_bloc.dart';
 import 'blocs/navigation_bloc.dart';
+import 'screens/payment_screen.dart';
 import 'screens/splash_screen.dart';
 import 'screens/register_screen.dart';
 import 'screens/login_screen.dart';
@@ -35,6 +47,18 @@ class MyApp extends StatelessWidget {
             apiService: APIService(),
           ),
         ),
+        BlocProvider<CartBloc>(
+          create: (context) => CartBloc(),
+        ),
+        BlocProvider<OrderScreenBloc>(
+          create: (context) => OrderScreenBloc(),
+        ),
+        BlocProvider<NotiScreenBloc>(
+          create: (context) => NotiScreenBloc(),
+        ),
+        BlocProvider<BranchScreenBloc>(
+          create: (context) => BranchScreenBloc(),
+        ),
       ],
       child: MaterialApp(
         title: 'DPTamDan',
@@ -52,6 +76,20 @@ class MyApp extends StatelessWidget {
               child: const RegisterScreen()),
           '/home': (context) => BlocProvider.value(
               value: context.read<HomeScreenBloc>(), child: const HomeScreen()),
+          '/checkout': (context) => BlocProvider.value(
+              value: context.read<HomeScreenBloc>(),
+              child: const OrderScreen()),
+          '/payment': (context) => PaymentScreen(),
+          '/search': (context) => SearchScreen(),
+          '/address': (context) => AddressScreen(),
+          '/user-profile': (context) => UserProfileScreen(),
+          '/orders': (context) => BlocProvider.value(
+              value: context.read<OrderScreenBloc>(),
+              child: const ListOrderScreen()),
+          '/notification': (context) => BlocProvider.value(
+              value: context.read<NotiScreenBloc>(),
+              child: const ListNotiScreen()),
+          '/branch': (context) => ListBranchScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

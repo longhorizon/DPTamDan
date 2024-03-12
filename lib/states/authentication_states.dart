@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
+// import 'package:equatable/equatable.dart';
 
-abstract class AuthenticationState extends Equatable {
+abstract class AuthenticationState {
   const AuthenticationState();
 
   @override

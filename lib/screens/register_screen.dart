@@ -30,15 +30,12 @@ class _RegisterScreenState extends State<RegisterScreen> {
       body: BlocListener<RegisterBloc, RegisterState>(
         listener: (context, state) {
           if (state is RegisterSuccess) {
-            // Fluttertoast.showToast(
-            //   msg: "Tạo tài khoản thành công",
-            //   toastLength: Toast.LENGTH_SHORT,
-            //   gravity: ToastGravity.TOP_RIGHT,
-            //   timeInSecForIosWeb: 1,
-            //   backgroundColor: Colors.blue,
-            //   textColor: Colors.white,
-            //   fontSize: 16.0
-            // );
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text('Tạo tài khoản thành công!'),
+                behavior: SnackBarBehavior.floating,
+              ),
+            );
             Navigator.pushReplacementNamed(context, '/login');
           } else if (state is RegisterFailure) {
             setState(() {
@@ -108,6 +105,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
             label,
             style: const TextStyle(color: Color(0xFF073f84)),
           ),
+          SizedBox(
+            height: 4,
+          ),
           TextField(
             controller: controller,
             style: const TextStyle(color: Colors.grey),
@@ -139,6 +139,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
           Text(
             label,
             style: const TextStyle(color: Color(0xFF073f84)),
+          ),
+          SizedBox(
+            height: 4,
           ),
           TextField(
             controller: controller,
@@ -188,7 +191,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
         },
         style: ElevatedButton.styleFrom(
           padding: const EdgeInsets.all(20),
-          backgroundColor: Colors.blue[900],
+          backgroundColor: Color(0xff073f65),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.0),
           ),

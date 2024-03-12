@@ -16,9 +16,7 @@ class _SplashScreenState extends State<SplashScreen> {
   }
 
   _navigateToMainScreen() async {
-    // Thay đổi thời gian delay theo yêu cầu của bạn
     await Future.delayed(const Duration(seconds: 3));
-    // Kiểm tra nếu context không null và có hợp lệ thì mới thực hiện chuyển hướng
     if (mounted) {
       Navigator.pushReplacementNamed(context, '/login');
     }
