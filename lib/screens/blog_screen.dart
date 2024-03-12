@@ -27,11 +27,10 @@ class BlogScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Thư viện bệnh lý',
-            style: TextStyle(fontWeight: FontWeight.bold),
-          ),
+        centerTitle: true,
+        title: Text(
+          'Thư viện bệnh lý',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
         ),
         backgroundColor: Color(0xffc34238),
         elevation: 0,
@@ -86,6 +85,15 @@ class BlogScreen extends StatelessWidget {
               Text(
                 blogs[index].description,
                 style: TextStyle(color: Colors.grey),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "12/3/2024",
+                    style: TextStyle(color: Colors.grey),
+                  ),
+                ],
               ),
             ],
           ),

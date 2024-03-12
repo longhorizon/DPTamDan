@@ -156,8 +156,9 @@ class _AddressScreenState extends State<AddressScreen> {
         return AlertDialog(
           title: Text('Quản lý địa chỉ'),
           content: Container(
+            padding: EdgeInsets.all(12),
             color: Colors.white,
-            width: MediaQuery.of(context).size.width * 0.8,
+            width: MediaQuery.of(context).size.width * 0.88,
             child: Material(
               child: SingleChildScrollView(
                 child: Column(
