@@ -33,9 +33,11 @@ class DataLoadedState extends HomeScreenState {
 
 class SearchState extends HomeScreenState {
   final List<Product> products;
+  final String key;
 
   SearchState({
     required this.products,
+    required this.key,
   });
 
   @override

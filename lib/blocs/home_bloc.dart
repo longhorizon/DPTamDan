@@ -68,6 +68,7 @@ class HomeScreenBloc extends Bloc<HomeScreenEvent, HomeScreenState> {
           .toList();
       yield SearchState(
         products: products,
+        key: event.key,
       );
     } catch (error) {
       yield ErrorState(error.toString());

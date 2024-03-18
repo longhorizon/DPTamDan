@@ -1,16 +1,10 @@
-import 'dart:convert';
-import 'dart:io';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:http/http.dart' as http;
-
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
 
-import '../blocs/order_bloc.dart';
-import '../events/order_event.dart';
-import '../models/order.dart';
-import '../states/order_state.dart';
-import 'order_detail_screen.dart';
+import '../blocs/address_bloc.dart';
+import '../events/address_event.dart';
+import '../models/address.dart';
+import '../states/address_state.dart';
 
 class AddressScreen extends StatefulWidget {
   const AddressScreen({super.key});
@@ -24,13 +18,13 @@ class _AddressScreenState extends State<AddressScreen> {
   int statusCode = 200;
 
   final List<String> items = ['Option 1', 'Option 2', 'Option 3'];
-  String selectedValue1 = 'Option 1'; // Giá trị mặc định của dropdown 1
-  String selectedValue2 = 'Option 1'; // Giá trị mặc định của dropdown 2
-  String inputValue = ''; // Giá trị mặc định của input field
+  String selectedValue1 = 'Option 1';
+  String selectedValue2 = 'Option 1';
+  String inputValue = '';
   @override
   void initState() {
     super.initState();
-    context.read<OrderScreenBloc>().add(FetchDataEvent());
+    context.read<AddressScreenBloc>().add(FetchDataEvent());
   }
 
   @override
@@ -42,7 +36,7 @@ class _AddressScreenState extends State<AddressScreen> {
   }
 
   Widget _buildBody(BuildContext context) {
-    return BlocListener<OrderScreenBloc, OrderScreenState>(
+    return BlocListener<AddressScreenBloc, AddressScreenState>(
       listener: (context, state) {
         if (state is ErrorState && state.errorsCode == 419) {
           showDialog(
@@ -63,7 +57,7 @@ class _AddressScreenState extends State<AddressScreen> {
           );
         }
       },
-      child: BlocBuilder<OrderScreenBloc, OrderScreenState>(
+      child: BlocBuilder<AddressScreenBloc, AddressScreenState>(
         builder: (context, state) {
           if (state is LoadedState) {
             return Container(
@@ -80,14 +74,14 @@ class _AddressScreenState extends State<AddressScreen> {
                   _buildHead(context),
                   const SizedBox(height: 30.0),
                   Expanded(
-                    child: state.orders.length > 0
+                    child: state.addresses.length > 0
                         ? SingleChildScrollView(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                for (Order item in state.orders)
+                                for (Address item in state.addresses)
                                   AddressWidget(
-                                    order: item,
+                                    address: item,
                                   ),
                               ],
                             ),
@@ -138,14 +132,14 @@ class _AddressScreenState extends State<AddressScreen> {
   FloatingActionButton? _addButton(BuildContext context) {
     return FloatingActionButton(
       onPressed: () {
-        _showInputDialog(context);
+        _showAddModal(context);
       },
       child: Icon(Icons.add, color: Colors.white, size: 40,),
       backgroundColor: Colors.blue,
     );
   }
 
-  void _showInputDialog(BuildContext context) {
+  void _showAddModal(BuildContext context) {
     String selectedProvince = '';
     String selectedDistrict = '';
     String address = '';
@@ -166,60 +160,60 @@ class _AddressScreenState extends State<AddressScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     SizedBox(height: 8),
-                    DropdownButtonFormField<String>(
-                      value: selectedValue1,
-                      onChanged: (String? value) {
-                        if (value != null) {
-                          setState(() {
-                            selectedValue1 = value;
-                          });
-                        }
-                      },
-                      items: items.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(labelText: 'Tỉnh/TP'),
-                    ),
-                    SizedBox(height: 16),
-                    DropdownButtonFormField<String>(
-                      value: selectedValue2,
-                      onChanged: (String? value) {
-                        if (value != null) {
-                          setState(() {
-                            selectedValue2 = value;
-                          });
-                        }
-                      },
-                      items: items.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(labelText: 'Quận/Huyện'),
-                    ),
-                    SizedBox(height: 16),
-                    DropdownButtonFormField<String>(
-                      value: selectedValue2,
-                      onChanged: (String? value) {
-                        if (value != null) {
-                          setState(() {
-                            selectedValue2 = value;
-                          });
-                        }
-                      },
-                      items: items.map((String value) {
-                        return DropdownMenuItem<String>(
-                          value: value,
-                          child: Text(value),
-                        );
-                      }).toList(),
-                      decoration: InputDecoration(labelText: 'Phường/Xã'),
-                    ),
-                    SizedBox(height: 16),
+                    // DropdownButtonFormField<String>(
+                    //   value: selectedValue1,
+                    //   onChanged: (String? value) {
+                    //     if (value != null) {
+                    //       setState(() {
+                    //         selectedValue1 = value;
+                    //       });
+                    //     }
+                    //   },
+                    //   items: items.map((String value) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: value,
+                    //       child: Text(value),
+                    //     );
+                    //   }).toList(),
+                    //   decoration: InputDecoration(labelText: 'Tỉnh/TP'),
+                    // ),
+                    // SizedBox(height: 16),
+                    // DropdownButtonFormField<String>(
+                    //   value: selectedValue2,
+                    //   onChanged: (String? value) {
+                    //     if (value != null) {
+                    //       setState(() {
+                    //         selectedValue2 = value;
+                    //       });
+                    //     }
+                    //   },
+                    //   items: items.map((String value) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: value,
+                    //       child: Text(value),
+                    //     );
+                    //   }).toList(),
+                    //   decoration: InputDecoration(labelText: 'Quận/Huyện'),
+                    // ),
+                    // SizedBox(height: 16),
+                    // DropdownButtonFormField<String>(
+                    //   value: selectedValue2,
+                    //   onChanged: (String? value) {
+                    //     if (value != null) {
+                    //       setState(() {
+                    //         selectedValue2 = value;
+                    //       });
+                    //     }
+                    //   },
+                    //   items: items.map((String value) {
+                    //     return DropdownMenuItem<String>(
+                    //       value: value,
+                    //       child: Text(value),
+                    //     );
+                    //   }).toList(),
+                    //   decoration: InputDecoration(labelText: 'Phường/Xã'),
+                    // ),
+                    // SizedBox(height: 16),
                     TextFormField(
                       onChanged: (String value) {
                         setState(() {
@@ -239,10 +233,12 @@ class _AddressScreenState extends State<AddressScreen> {
           actions: [
             ElevatedButton(
               onPressed: () {
-                print('Tỉnh/TP: $selectedProvince');
-                print('Phường/Xã: $selectedDistrict');
-                print('Địa chỉ: $address');
+                // print('Tỉnh/TP: $selectedProvince');
+                // print('Phường/Xã: $selectedDistrict');
+                // print('Địa chỉ: $address');
+                context.read<AddressScreenBloc>().add(AddAddressEvent(address: address));
                 Navigator.of(context).pop();
+                context.read<AddressScreenBloc>().add(FetchDataEvent());
               },
               child: Text('Lưu'),
             ),
@@ -255,8 +251,8 @@ class _AddressScreenState extends State<AddressScreen> {
 }
 
 class AddressWidget extends StatelessWidget {
-  final Order order;
-  AddressWidget({required this.order});
+  final Address address;
+  AddressWidget({required this.address});
 
   @override
   Widget build(BuildContext context) {
@@ -268,20 +264,21 @@ class AddressWidget extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _buildInfoRow("Số nhà:", order.infoAddress),
-            _buildInfoRow("Phường/Xã:", order.infoAddress),
-            _buildInfoRow("Quận/Huyện:", order.infoAddress),
-            _buildInfoRow("Tỉnh/TP:", order.infoAddress),
+            _buildInfoRow("Địa chỉ:", address.address),
+            // _buildInfoRow("Phường/Xã:", address.infoAddress),
+            // _buildInfoRow("Quận/Huyện:", address.infoAddress),
+            // _buildInfoRow("Tỉnh/TP:", address.infoAddress),
             Container(height: 2, color: Colors.grey[300]),
+            SizedBox(height:12,),
             SizedBox(height: 6.0),
-            buildCardButton(),
+            buildCardButton(context, address),
           ],
         ),
       ),
     );
   }
 
-  Row buildCardButton() {
+  Widget buildCardButton(BuildContext context ,Address address) {
     return Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -291,30 +288,116 @@ class AddressWidget extends StatelessWidget {
                     color: Colors.blue,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.mode_edit_outline_outlined, color: Colors.white),
-                      SizedBox(width: 4.0),
-                      Text("Chỉnh sửa", style: TextStyle(color: Colors.white),),
-                    ],
+                  child: InkWell(
+                    onTap: () {
+                      _showEditModal(context, address);
+                    },
+                    child: Row(
+                      children: [
+                        Icon(Icons.mode_edit_outline_outlined, color: Colors.white),
+                        SizedBox(width: 4.0),
+                        Text("Chỉnh sửa", style: TextStyle(color: Colors.white),),
+                      ],
+                    ),
                   ),
                 ),
-                Container(
-                  padding: EdgeInsets.only(left: 8, top: 4, right: 8, bottom: 4,),
-                  decoration: BoxDecoration(
-                    color: Colors.red,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.delete_outline, color: Colors.white),
-                      SizedBox(width: 4.0),
-                      Text("Xoá", style: TextStyle(color: Colors.white),),
-                    ],
+                InkWell(
+                  onTap:(){
+                    _showDeleteModal(context, address);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.only(left: 8, top: 4, right: 8, bottom: 4,),
+                    decoration: BoxDecoration(
+                      color: Colors.red,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(Icons.delete_outline, color: Colors.white),
+                        SizedBox(width: 4.0),
+                        Text("Xoá", style: TextStyle(color: Colors.white),),
+                      ],
+                    ),
                   ),
                 ),
               ],
             );
+  }
+
+  _showEditModal(BuildContext context, Address addr) {
+    TextEditingController addressController = TextEditingController(text: addr.address);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Quản lý địa chỉ'),
+          content: Container(
+            padding: EdgeInsets.all(12),
+            color: Colors.white,
+            width: MediaQuery.of(context).size.width * 0.88,
+            child: Material(
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    SizedBox(height: 8),
+                    TextFormField(
+                      controller: addressController,
+                      decoration: InputDecoration(
+                        labelText: 'Địa chỉ',
+                        border: OutlineInputBorder(),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                String address = addressController.text;
+                context.read<AddressScreenBloc>().add(UpdateAddressEvent(address: address, id: addr.id));
+                Navigator.of(context).pop();
+                context.read<AddressScreenBloc>().add(FetchDataEvent());
+              },
+              child: Text('Lưu'),
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  _showDeleteModal(BuildContext context, Address addr) {
+    TextEditingController addressController = TextEditingController(text: addr.address);
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('Xoá địa chỉ'),
+          content: Text("Bạn muốn xoá địa chỉ này?"),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('Huỷ'),
+            ),
+            ElevatedButton(
+              onPressed: () {
+                String address = addressController.text;
+                context.read<AddressScreenBloc>().add(DeleteAddressEvent(id: addr.id));
+                Navigator.of(context).pop();
+                context.read<AddressScreenBloc>().add(FetchDataEvent());
+              },
+              child: Text('Xoá'),
+            ),
+          ],
+        );
+      },
+    );
   }
 
   Widget _buildInfoRow(String label, String value) {
@@ -322,6 +405,7 @@ class AddressWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 5.0),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
             label,
@@ -331,9 +415,15 @@ class AddressWidget extends StatelessWidget {
               color: Colors.blueGrey[400],
             ),
           ),
-          Text(
-            value,
-            style: TextStyle(fontSize: 14.0),
+          SizedBox(
+            width: 8,
+          ),
+          Flexible(
+            child: Text(
+              value,
+              style: TextStyle(fontSize: 14.0),
+              softWrap: true,
+            ),
           ),
         ],
       ),

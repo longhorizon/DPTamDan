@@ -19,10 +19,11 @@ class SearchScreen extends StatefulWidget {
 }
 
 class _SearchScreenState extends State<SearchScreen> {
+  TextEditingController searchController = TextEditingController();
+
   @override
   void initState() {
     super.initState();
-    // BlocProvider.of<HomeScreenBloc>(context).add(SearchEvent("a"));
   }
 
   String formatCurrency(int amount) {
@@ -56,6 +57,7 @@ class _SearchScreenState extends State<SearchScreen> {
       child: BlocBuilder<HomeScreenBloc, HomeScreenState>(
         builder: (context, state) {
           if (state is SearchState) {
+            searchController.text = state.key;
             final List<Product> products = state.products;
             return Scaffold(
               body: _buildBody(context, products),
@@ -116,7 +118,6 @@ class _SearchScreenState extends State<SearchScreen> {
           children: [
             InkWell(
               onTap: () {
-                // Navigator.pop(context);
                 Navigator.popUntil(context, ModalRoute.withName('/home'));
                 context.read<HomeScreenBloc>().add(FetchDataEvent());
               },
@@ -173,6 +174,7 @@ class _SearchScreenState extends State<SearchScreen> {
             SizedBox(width: 8.0),
             Expanded(
               child: TextField(
+                controller: searchController,
                 decoration: InputDecoration(
                   hintText: 'Tìm tên thuốc, bệnh lý, ...',
                   hintStyle: TextStyle(color: Color(0xffc7c7c7)),

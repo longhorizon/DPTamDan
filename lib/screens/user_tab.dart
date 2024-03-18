@@ -14,6 +14,7 @@ import '../const/const.dart';
 import '../events/home_event.dart';
 import '../events/navigation_event.dart';
 import '../states/home_state.dart';
+import 'list_order_by_type_screen.dart';
 
 class UserTab extends StatefulWidget {
   const UserTab({super.key});
@@ -139,11 +140,10 @@ class _UserTabState extends State<UserTab> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      _deliveryItem("Đang xử lý", "images/ic-dang-xu-ly.png"),
-                      _deliveryItem(
-                          "Đang giao", "images/ic-dang-giao-hang.png"),
-                      _deliveryItem("Đã giao", "images/ic-da-giao-hang.png"),
-                      _deliveryItem("Đổi/Trả", "images/ic-doi-tra.png"),
+                      _deliveryItem("Đang xử lý", "images/ic-dang-xu-ly.png", 0),
+                      _deliveryItem("Đang giao", "images/ic-dang-giao-hang.png", 1),
+                      _deliveryItem("Đã giao", "images/ic-da-giao-hang.png", 3),
+                      _deliveryItem("Đổi/Trả", "images/ic-doi-tra.png", 4),
                     ],
                   ),
                 ),
@@ -205,7 +205,7 @@ class _UserTabState extends State<UserTab> {
                   child: Column(
                     children: [
                       _lableItem("Về Tadavina",
-                          "images/ic-tai-khoan-nha-thuoc.png", ""),
+                          "images/ic-tai-khoan-nha-thuoc.png", "/tadavina"),
                       _lableItem(
                           "Hệ thống nhà thuốc",
                           "images/ic-tai-khoan-chi-nhanh-nha-thuoc.png",
@@ -258,9 +258,14 @@ class _UserTabState extends State<UserTab> {
     );
   }
 
-  Widget _deliveryItem(String lable, String image, {onTap}) {
+  Widget _deliveryItem(String label, String image, int type) {
     return InkWell(
-      onTap: onTap,
+      onTap: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(builder: (context) => ListOrderByTypeScreen(type: type)),
+        );
+      },
       child: Container(
         child: Column(
           children: [
@@ -270,7 +275,7 @@ class _UserTabState extends State<UserTab> {
               height: 40,
             ),
             Text(
-              lable,
+              label,
               style: TextStyle(
                 color: Colors.black,
                 fontSize: 12,

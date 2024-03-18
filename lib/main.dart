@@ -9,9 +9,11 @@ import 'package:DPTamDan/screens/list_order_screen.dart';
 import 'package:DPTamDan/screens/noti_screen.dart';
 import 'package:DPTamDan/screens/order_screen.dart';
 import 'package:DPTamDan/screens/search_screen.dart';
+import 'package:DPTamDan/screens/tadavina_screen.dart';
 import 'package:DPTamDan/screens/user_profile_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'blocs/address_bloc.dart';
 import 'blocs/cart_bloc.dart';
 import 'blocs/home_bloc.dart';
 import 'blocs/navigation_bloc.dart';
@@ -59,6 +61,9 @@ class MyApp extends StatelessWidget {
         BlocProvider<BranchScreenBloc>(
           create: (context) => BranchScreenBloc(),
         ),
+        BlocProvider<AddressScreenBloc>(
+          create: (context) => AddressScreenBloc(),
+        ),
       ],
       child: MaterialApp(
         title: 'DPTamDan',
@@ -90,6 +95,7 @@ class MyApp extends StatelessWidget {
               value: context.read<NotiScreenBloc>(),
               child: const ListNotiScreen()),
           '/branch': (context) => ListBranchScreen(),
+          '/tadavina': (context) => TadavinaScreen(),
         },
         debugShowCheckedModeBanner: false,
       ),

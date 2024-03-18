@@ -8,18 +8,19 @@ import '../models/order.dart';
 import '../states/order_state.dart';
 import 'order_detail_screen.dart';
 
-class ListOrderScreen extends StatefulWidget {
-  const ListOrderScreen({super.key});
+class ListOrderByTypeScreen extends StatefulWidget {
+  int type;
+  ListOrderByTypeScreen({super.key, required this.type});
 
   @override
-  State<ListOrderScreen> createState() => _ListOrderScreenState();
+  State<ListOrderByTypeScreen> createState() => _ListOrderByTypeScreenState();
 }
 
-class _ListOrderScreenState extends State<ListOrderScreen> {
+class _ListOrderByTypeScreenState extends State<ListOrderByTypeScreen> {
   @override
   void initState() {
     super.initState();
-    context.read<OrderScreenBloc>().add(FetchDataEvent());
+    context.read<OrderScreenBloc>().add(FetchDataEvent(type: widget.type));
   }
 
   @override
@@ -81,7 +82,7 @@ class _ListOrderScreenState extends State<ListOrderScreen> {
                             ),
                           )
                         : Center(
-                            child: Text("Bạn chưa thực hiện đơn hàng nào!"),
+                            child: Text("Không có gì ở đây!"),
                           ),
                   ),
                 ],
@@ -109,7 +110,7 @@ class _ListOrderScreenState extends State<ListOrderScreen> {
             },
           ),
           Text(
-            "Đơn của tôi",
+            widget.type == 0 ? "Đơn đang xử lý" : widget.type == 1 ? "Đơn đang giao" : widget.type == 3 ? "Đơn đã giao" : "Đổi trả"  ,
             style: TextStyle(
               color: Colors.white,
               fontSize: 18,

@@ -28,6 +28,7 @@ class _ProductTabState extends State<ProductTab> {
   String _currentCategoryId = "";
   String _categoryName = "Tất cả sản phẩm";
   bool _isLoading = false;
+  bool _isLoadmore = false;
   int _page = 1;
   ScrollController _scrollController = ScrollController();
 
@@ -58,7 +59,10 @@ class _ProductTabState extends State<ProductTab> {
   Future<void> _fetchData(String categoryId) async {
     try {
       setState(() {
-        _isLoading = true;
+        if(_page == 1)
+          _isLoading = true;
+        else
+          _isLoadmore = true;
       });
       if (_currentCategoryId != categoryId) {
         setState(() {
@@ -95,7 +99,7 @@ class _ProductTabState extends State<ProductTab> {
         categories.insert(0, allProductsCategory);
         setState(() {
           _categories = categories;
-          _products = products;
+          _products.addAll(products);
           _currentCategoryId = categoryId;
         });
       } else {

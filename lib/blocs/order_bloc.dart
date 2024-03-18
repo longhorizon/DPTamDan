@@ -17,11 +17,11 @@ class OrderScreenBloc extends Bloc<OrderScreenEvent, OrderScreenState> {
     OrderScreenEvent event,
   ) async* {
     if (event is FetchDataEvent) {
-      yield* _mapFetchDataToState();
+      yield* _mapFetchDataToState(event);
     }
   }
 
-  Stream<OrderScreenState> _mapFetchDataToState() async* {
+  Stream<OrderScreenState> _mapFetchDataToState(FetchDataEvent event) async* {
     yield LoadingState();
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -34,6 +34,8 @@ class OrderScreenBloc extends Bloc<OrderScreenEvent, OrderScreenState> {
         body: json.encode({
           "uid": uid,
           "token": token,
+          "type": event.type,
+          "page": event.page
         }),
       );
 

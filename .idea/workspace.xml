@@ -5,10 +5,24 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="68eba5d9-3a56-4d68-9c8d-12403123f54d" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.flutter-plugins-dependencies" beforeDir="false" afterPath="$PROJECT_DIR$/.flutter-plugins-dependencies" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/blocs/address_bloc.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/events/address_event.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/models/address.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/list_order_by_type_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/screens/tadavina_screen.dart" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/lib/states/address_state.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/home_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/home_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/blocs/order_bloc.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/blocs/order_bloc.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/events/order_event.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/events/order_event.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/main.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/main.dart" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/lib/screens/address_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/address_screen.dart" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/lib/screens/blog_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/blog_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/home_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/home_tab.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/list_order_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/list_order_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/product_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/product_tab.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/search_screen.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/search_screen.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/screens/user_tab.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/screens/user_tab.dart" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/lib/states/home_state.dart" beforeDir="false" afterPath="$PROJECT_DIR$/lib/states/home_state.dart" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -44,9 +58,9 @@
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2cyZDCI0dyEgYW0hSa35Gp79C7e" />
   <component name="ProjectView">
     <navigator currentView="ProjectPane" proportions="" version="1" />
@@ -60,28 +74,29 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;cf.first.check.clang-format&quot;: &quot;false&quot;,
-    &quot;cidr.known.project.marker&quot;: &quot;true&quot;,
-    &quot;com.google.services.firebase.aqiPopupShown&quot;: &quot;true&quot;,
-    &quot;dart.analysis.tool.window.visible&quot;: &quot;false&quot;,
-    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
-    &quot;io.flutter.reload.alreadyRun&quot;: &quot;true&quot;,
-    &quot;last_opened_file_path&quot;: &quot;/Users/admin/Downloads/DPTamDan-fn/lib/screens&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;AndroidSdkUpdater&quot;,
-    &quot;show.migrate.to.gradle.popup&quot;: &quot;false&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.cidr.known.project.marker": "true",
+    "cf.first.check.clang-format": "false",
+    "cidr.known.project.marker": "true",
+    "com.google.services.firebase.aqiPopupShown": "true",
+    "dart.analysis.tool.window.visible": "false",
+    "git-widget-placeholder": "main",
+    "io.flutter.reload.alreadyRun": "true",
+    "last_opened_file_path": "/Users/admin/Downloads/DPTamDan-fn/lib/blocs",
+    "settings.editor.selected.configurable": "AndroidSdkUpdater",
+    "show.migrate.to.gradle.popup": "false"
   }
-}</component>
+}]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="$PROJECT_DIR$/lib/screens" />
       <recent name="$PROJECT_DIR$/lib/blocs" />
       <recent name="$PROJECT_DIR$/lib/events" />
       <recent name="$PROJECT_DIR$/lib/states" />
+      <recent name="$PROJECT_DIR$/lib/models" />
+      <recent name="$PROJECT_DIR$/lib/screens" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/images" />

@@ -30,6 +30,8 @@ class HomeTab extends StatefulWidget {
 
 class _HomeTabState extends State<HomeTab> {
   String name = "";
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+
 
   @override
   void initState() {
@@ -75,7 +77,9 @@ class _HomeTabState extends State<HomeTab> {
             final Category categories = state.categories;
             final List<Product> products = state.products;
             return Scaffold(
+              key: _scaffoldKey,
               body: _buildBody(context, user, galleries, categories, products),
+              drawer: buildDrawer(context, user.name),
             );
           }
           if (state is ErrorState) {
@@ -97,6 +101,95 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
+  Drawer buildDrawer(BuildContext context, String username) {
+    return Drawer(
+            child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Color(0xffc34238),
+                ),
+                child: Image.asset(
+                  "images/home-logo.png",
+                  height: 30,
+                ),
+              ),
+              Text("Xin chào!"),
+              ListTile(
+                title: Text(username,
+                  style: TextStyle(
+                    color: Colors.blueGrey,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  'Về Tadavina',
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                onTap: () {
+                  Navigator.pushNamed(context, "/tadavina").then((value) {
+                    context.read<HomeScreenBloc>().add(FetchDataEvent());
+                  });
+                },
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(height: 30),
+              Container(
+                decoration: BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.black54,
+                    ),
+                  ),
+                ),
+              ),
+              ListTile(
+                title: Text(
+                  'Đăng xuất',
+                    style: TextStyle(
+                      color: Color(0xffd10d0d),
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                ),
+                onTap: () async {
+                  SharedPreferences prefs =
+                  await SharedPreferences.getInstance();
+                  await prefs.remove('token');
+                  Navigator.of(context)
+                      .pushNamedAndRemoveUntil('/login', (route) => false);
+                },
+              ),
+            ],
+          ),
+        );
+  }
+
   Widget _buildBody(BuildContext context, UserProfile user, Gallery galleries,
       Category categories, List<Product> products) {
     return SingleChildScrollView(
@@ -112,7 +205,7 @@ class _HomeTabState extends State<HomeTab> {
           child: Column(
             children: [
               const SizedBox(height: 16.0),
-              _buildHeader(),
+              _buildHeader(context),
               const SizedBox(height: 16.0),
               _buildSearchField(),
               const SizedBox(height: 16.0),
@@ -140,15 +233,20 @@ class _HomeTabState extends State<HomeTab> {
     );
   }
 
-  Widget _buildHeader() {
+  Widget _buildHeader(BuildContext context) {
     return Padding(
         padding: EdgeInsets.only(left: 8, right: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            Icon(
-              Icons.menu,
-              color: Colors.white,
+            InkWell(
+              onTap: () {
+                _scaffoldKey.currentState!.openDrawer();
+              },
+              child: Icon(
+                Icons.menu,
+                color: Colors.white,
+              ),
             ),
             Image.asset(
               "images/home-logo.png",
@@ -366,12 +464,14 @@ class _HomeTabState extends State<HomeTab> {
               builder: (BuildContext context) => ListBranchScreen(),
             ),
           );
-        } else {
+        } else if (categories.data[index].name == "Thư viện bệnh lý") {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (BuildContext context) => BlogScreen(),
             ),
           );
+        } else {
+
         }
       },
       child: Container(
